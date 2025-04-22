@@ -143,3 +143,10 @@ create table public.user_likes (
 );
 ```
 
+
+不足している部分：
+
+UI/UX：UIコンポーネントの実装が不足。モバイル挙動に関する実装が不足。
+バックエンド：Supabaseとの連携、Auth、Edge Functionsが未実装。
+arXiv連携：Cronジョブが未設定。
+インフラ・デプロイ：Vercelへのデプロイ状況、環境変数管理の設定状況、ドメイン設定状況、モニタリング設定状況を確認する必要がある。
