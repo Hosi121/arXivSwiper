@@ -1,15 +1,11 @@
-import React from 'react';
-
 interface FilterPanelProps {
   onCategoryChange: (categories: string[]) => void;
-  onDateRangeChange: (startDate: Date, endDate: Date) => void;
   onKeywordChange: (keyword: string) => void;
   onSortChange: (sortBy: string) => void;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
   onCategoryChange,
-  onDateRangeChange,
   onKeywordChange,
   onSortChange,
 }) => {
@@ -19,10 +15,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
     onCategoryChange([category]); // 仮実装
   };
 
-  const handleDateRangeChange = (startDate: Date, endDate: Date) => {
-    // 日付範囲変更時の処理
-    onDateRangeChange(startDate, endDate); // 仮実装
-  };
 
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;

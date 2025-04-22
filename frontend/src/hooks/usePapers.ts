@@ -5,7 +5,7 @@ import { Paper } from '../types/paper';
 
 const usePapers = (categories: string[]): [Paper[], (paper: Paper) => void, (paper: Paper) => void] => {
   const [papers, setPapers] = useState<Paper[]>([]);
-  const [likedPapers, setLikedPapers] = useState<Paper[]>([]);
+
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -36,12 +36,10 @@ const usePapers = (categories: string[]): [Paper[], (paper: Paper) => void, (pap
 
   const likePaper = useCallback((paper: Paper) => {
     setPapers(prevPapers => prevPapers.map(p => (p.title === paper.title ? { ...p, liked: true } : p)));
-    setLikedPapers(prevLikedPapers => [...prevLikedPapers, { ...paper, liked: true }]);
   }, []);
 
   const unlikePaper = useCallback((paper: Paper) => {
     setPapers(prevPapers => prevPapers.map(p => (p.title === paper.title ? { ...p, liked: false } : p)));
-    setLikedPapers(prevLikedPapers => prevLikedPapers.filter(p => p.title !== paper.title));
   }, []);
 
   return [papers, likePaper, unlikePaper];

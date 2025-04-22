@@ -1,6 +1,14 @@
-export interface Paper {
-  title: string;
-  authors: string;
-  summary: string;
-  liked?: boolean;
+
+
+
+export type Paper = {
+  id: string
+  title: string
+  authors: string[]
+  abstract: string
+  url: string
+  category: string
+  published: string
+  liked?: boolean
+  summary: string
 }

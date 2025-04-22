@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import './App.css';
-import SwipeableViews from '@mui/base/SwipeableViews';
-import FilterPanel from './components/FilterPanel';
+
+
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import MyList from './MyList';
 import usePapers from './hooks/usePapers';
@@ -9,7 +9,6 @@ import PaperCard from './components/PaperCard';
 
 function App() {
   const [categories, setCategories] = useState<string[]>([]);
-  const [index, setIndex] = useState(0);
   const [papers, likePaper, unlikePaper] = usePapers(categories);
 
   const handleCategoryChange = (category: string) => {
@@ -19,10 +18,6 @@ function App() {
       setCategories([...categories, category]);
     }
   };
-
-  const handleChangeIndex = useCallback((index: number) => {
-    setIndex(index);
-  }, []);
 
   return (
     <Router>
@@ -85,11 +80,11 @@ function App() {
             <Route path="/" element={
               papers.length > 0 ? (
                 <>
-                  <SwipeableViews index={index} onChangeIndex={handleChangeIndex}>
+                  <div>
                     {papers.map((paper, index) => (
                       <PaperCard key={index} paper={paper} likePaper={likePaper} unlikePaper={unlikePaper} />
                     ))}
-                  </SwipeableViews>
+                  </div>
                 </>
               ) : (
                 <p>Loading papers...</p>
