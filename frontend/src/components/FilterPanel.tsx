@@ -1,31 +1,56 @@
+import { useState } from 'react';
+
 interface FilterPanelProps {
   onCategoryChange: (categories: string[]) => void;
   onKeywordChange: (keyword: string) => void;
   onSortChange: (sortBy: string) => void;
+  onDateRangeChange: (startDate: Date | null, endDate: Date | null) => void;
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({
   onCategoryChange,
   onKeywordChange,
   onSortChange,
-}) => {
+  onDateRangeChange,
+}: FilterPanelProps) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
+
   const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const category = event.target.value;
-    // カテゴリ変更時の処理
-    onCategoryChange([category]); // 仮実装
+    const isChecked = event.target.checked;
+
+    setSelectedCategories((prevCategories) => {
+      if (isChecked) {
+        return [...prevCategories, category];
+      } else {
+        return prevCategories.filter((c) => c !== category);
+      }
+    });
+
+    onCategoryChange(selectedCategories);
+  };
+
+  const handleStartDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStartDate(event.target.value ? new Date(event.target.value) : null);
+    onDateRangeChange(startDate, endDate);
+  };
+
+  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEndDate(event.target.value ? new Date(event.target.value) : null);
+    onDateRangeChange(startDate, endDate);
   };
 
 
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value;
-    // キーワード変更時の処理
-    onKeywordChange(keyword); // 仮実装
+    onKeywordChange(keyword);
   };
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const sortBy = event.target.value;
-    // ソート変更時の処理
-    onSortChange(sortBy); // 仮実装
+    onSortChange(sortBy);
   };
 
   return (
@@ -37,15 +62,40 @@ const FilterPanel: React.FC<FilterPanelProps> = ({
           <input
             type="checkbox"
             value="cs.LG"
+            checked={selectedCategories.includes("cs.LG")}
             onChange={handleCategoryChange}
           />
           cs.LG
         </label>
-        {/* 他のカテゴリのチェックボックス */}
+        <label>
+          <input
+            type="checkbox"
+            value="cs.AI"
+            checked={selectedCategories.includes("cs.AI")}
+            onChange={handleCategoryChange}
+          />
+          cs.AI
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="cs.CL"
+            checked={selectedCategories.includes("cs.CL")}
+            onChange={handleCategoryChange}
+          />
+          cs.CL
+        </label>
       </div>
       <div className="date-range-filter">
         <h3>Date Range</h3>
-        {/* 日付範囲選択コンポーネント */}
+        <label>
+          Start Date:
+          <input type="date" onChange={handleStartDateChange} />
+        </label>
+        <label>
+          End Date:
+          <input type="date" onChange={handleEndDateChange} />
+        </label>
       </div>
       <div className="keyword-filter">
         <h3>Keyword</h3>

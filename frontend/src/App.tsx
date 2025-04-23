@@ -6,17 +6,24 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import MyList from './MyList';
 import usePapers from './hooks/usePapers';
 import PaperCard from './components/PaperCard';
+import FilterPanel from './components/FilterPanel';
 
 function App() {
   const [categories, setCategories] = useState<string[]>([]);
-  const [papers, likePaper, unlikePaper] = usePapers(categories);
+  const [keyword, setKeyword] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('relevance');
+  const [papers, likePaper, unlikePaper] = usePapers(categories, keyword, sortBy);
 
-  const handleCategoryChange = (category: string) => {
-    if (categories.includes(category)) {
-      setCategories(categories.filter(c => c !== category));
-    } else {
-      setCategories([...categories, category]);
-    }
+  const handleCategoryChange = (categories: string[]) => {
+    setCategories(categories);
+  };
+
+  const handleKeywordChange = (keyword: string) => {
+    setKeyword(keyword);
+  };
+
+  const handleSortChange = (sortBy: string) => {
+    setSortBy(sortBy);
   };
 
   return (
@@ -37,42 +44,11 @@ function App() {
       <div className="flex">
         <aside className="w-64 bg-gray-100 p-4">
           <h2>Filters</h2>
-          <p>Category</p>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                value="cs.AI"
-                checked={categories.includes('cs.AI')}
-                onChange={() => handleCategoryChange('cs.AI')}
-              />
-              cs.AI
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                value="cs.LG"
-                checked={categories.includes('cs.LG')}
-                onChange={() => handleCategoryChange('cs.LG')}
-              />
-              cs.LG
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                value="stat.ML"
-                checked={categories.includes('stat.ML')}
-                onChange={() => handleCategoryChange('stat.ML')}
-              />
-              stat.ML
-            </label>
-          </div>
-          <p>Date Range</p>
-          <p>Keyword Search</p>
+           <FilterPanel
+            onCategoryChange={handleCategoryChange}
+            onKeywordChange={handleKeywordChange}
+            onSortChange={handleSortChange}
+          />
         </aside>
 
         <main className="flex-1 p-4">
